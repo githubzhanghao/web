@@ -1,1 +1,82 @@
 <!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>牛某SPACE</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <style>
+            html,body{
+                font-size: 14px;
+                height: 100%;
+            }
+            .evaBox{
+                width: 80%;
+                height: 80%;
+                margin: .5rem auto;
+                border-radius: 10px;
+                padding: 10px;
+                font-size: 1.1rem;
+                box-shadow:  0 0  20px #08bbf2;
+                position: relative;
+                box-sizing: border-box;
+                display: flex;
+                justify-content: space-around;
+            }
+            .eva, .log{
+                padding: 6px;
+                border-radius: 6px;
+                width: 48%;
+                height: 80%;
+                box-sizing: border-box;
+                border: 1px solid #0f0;
+                overflow-y: auto;
+                outline: none;
+                color: #666;
+                word-wrap:break-word;
+                word-break: break-all;
+            }
+            .eva{
+                
+            }
+            .log{
+                border: 0;
+            }
+            .runBtn{
+                bottom: 0px;
+                border-radius: 8px;
+                position: absolute;
+                height: 40px;
+                line-height: 40px;
+                text-align: center;
+                width: 100%;
+                outline: none;
+                background-color: #0082ff;
+                color: #fff;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="evaBox" >
+            <div class="eva" id='eva' contentEditable="true"></div>
+            <div class='log' id='log'></div>
+            <button class="runBtn" id='run'>Run</button>
+        </div>
+
+        <script>
+            window.onload = function() {
+                function getDom(id){
+                    return document.getElementById(id);
+                }
+
+                const log = getDom('log'),
+                    eva = getDom('eva'),
+                    run = getDom('run');
+                run.onclick = function() {
+                    eval(eva.innerText);
+                }
+            }
+            
+        </script>
+    </body>
+</html>
