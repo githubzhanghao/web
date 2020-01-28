@@ -19,6 +19,8 @@ var websocketGame = {
 var canvas = document.getElementById("drawing-pad");
 var ctx = canvas.getContext('2d');
 
+canvas.style.height = document.documentElement.offsetHeight / 3 * 2 + 'px';
+
 function drawLine(ctx, x1, y1, x2, y2, thickness) {
 	ctx.beginPath();
 	ctx.moveTo(x1, y1);
@@ -51,20 +53,19 @@ $(document).ready(function () {
 			mv_touchPort = e.touches[0];
 			mv_x = mv_touchPort.pageX;
 			mv_y = mv_touchPort.pageY;
-			if (!(mv_x == websocketGame.startX && mv_y == websocketGame.startY)) {
-				drawLine(ctx, websocketGame.startX, websocketGame.startY, mv_x, mv_y, 1);
-				var data = {};
-				data.dataType = websocketGame.LINE_SEGMENT;
+			
+			drawLine(ctx, websocketGame.startX, websocketGame.startY, mv_x, mv_y, 1);
+			var data = {};
+			data.dataType = websocketGame.LINE_SEGMENT;
 
-				data.startX = websocketGame.startX;
-				data.startY = websocketGame.startY;
-				data.endX = mv_x;
-				data.endY = mv_y;
-				ws.send(JSON.stringify(data));
+			data.startX = websocketGame.startX;
+			data.startY = websocketGame.startY;
+			data.endX = mv_x;
+			data.endY = mv_y;
+			ws.send(JSON.stringify(data));
 
-				websocketGame.startX = mv_x;
-				websocketGame.startY = mv_y;
-			}
+			websocketGame.startX = mv_x;
+			websocketGame.startY = mv_y;
 		}
 
 
