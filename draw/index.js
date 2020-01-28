@@ -46,7 +46,6 @@ $(document).ready(function () {
 		mv_y = 0,
 		mv_touchPort = { pageX: 0, pageY: 0 };
 	pad.addEventListener('touchmove', function (e) {
-		
 		if (websocketGame.isDrawing) {
 			mv_touchPort = e.touches[0];
 			mv_x = mv_touchPort.pageX;

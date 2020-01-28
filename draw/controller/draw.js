@@ -22,13 +22,14 @@ var wss = new WebSocketServer({ port: 8181 });
 //定义广播函数
 wss.broadcast = function broadcast(message) {
 	wss.clients.forEach(function each(client) {
-			client.send('hhhhh');
+			client.send(message);
 	});
 };
  
+const names = [ 'sss', 'dd', 'hh', 'yy'];
 //建立连接时向客户端发送一条msg
 wss.on('connection', function (ws) { 
-	var msg = "来来来 整整" + wss.clients.size;    
+	var msg = "新人进入，当前房间人数" + wss.clients.size;    
     
     //定义发送数据的类型，并广播               
     var data = {};
