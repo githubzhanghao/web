@@ -10,7 +10,7 @@ var GAME_RESTART = 3;
  
 var playerTurn = 0;
 //配置游戏中使用的关键词
-var wordsList = ["apple","pear","angry","happy","boat","desk"];
+var wordsList = ["苹果", "西瓜", "鸡", "开心", "飞起", "兔兔兔兔"];
 var currentGameState = WAITING_TO_START;
 var gameOverTimeout;
  
@@ -21,14 +21,14 @@ var wss = new WebSocketServer({ port: 8181 });
  
 //定义广播函数
 wss.broadcast = function broadcast(message) {
-  wss.clients.forEach(function each(client) {
-        client.send(message);
-  });
+	wss.clients.forEach(function each(client) {
+			client.send('hhhhh');
+	});
 };
  
 //建立连接时向客户端发送一条msg
 wss.on('connection', function (ws) { 
-	var msg = "Welcome to join the party! Total connection: " + wss.clients.size;    
+	var msg = "来来来 整整" + wss.clients.size;    
     
     //定义发送数据的类型，并广播               
     var data = {};
