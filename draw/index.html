@@ -19,10 +19,11 @@
 <body>
     <div id="game">
         <canvas id="drawing-pad"></canvas>
-
+        <button id='send'>发送</button>
         <h1>1.0</h1>
         <div class="vertical-center">
             <ul id="chat-history"></ul>
+            <div id='test'></div>
 
             <!-- <div class="container">
 
@@ -40,7 +41,12 @@
                 </form>
             </div> -->
         </div>
-    </div>
+    </button>
+    
+    <script type="text/javascript">
+        var ws = new WebSocket("ws://localhost:8181/");
+    </script>
+
 
     <script type="text/javascript" src="./index.js"></script>
 
@@ -60,14 +66,23 @@
         //     // console.log(`[CLIENT] Received: ${message}`);
         // };
         //启动一个websocket，并连接到服务器
-        var ws = new WebSocket("ws://niuxiaodong.com/ws");
+        var num = 0;
+        $("#send").on('click', function() {
+            ws.send('ssss' + ++num);
+        })
+        
         ws.onopen = function (e) {
             console.log('Connection to server opened');
         }
 
+        ws.onclose = function() {
+            console.log('链接关闭');
+        }
+
         ws.onmessage = function (evt) {
-            var data = JSON.parse(evt.data);
-            alert(JSON.stringify(data));
+            console.log(111);
+            $('#test').html(evt.data);
+            // var data = JSON.parse(evt.data);
             // if (data.dataType == websocketGame.CHAT_MESSAGE) {
             //     $("#chat-history").append("<li>" + data.name + " said: " + data.message + "</li>");
             // } else if (data.dataType == websocketGame.LINE_SEGMENT) {
