@@ -1,0 +1,36 @@
+body{
+    background:#ccd6e1;
+    font-family:arial,serif;
+}
+ 
+#game{
+    width:450px;
+    margin:0 auto;
+}
+ 
+#game h1{
+    text-align: center;
+    margin-bottom:10px;
+    font-size:20px;
+}
+ 
+#drawing-pad{
+    position:relative;
+    border:solid 1px black;
+    background: white;
+}
+ 
+.vertical-center{
+    position:relative;
+}
+ 
+ul li{
+    list-style:none;
+}
+ 
+#chat-history{
+    height:100px;
+    overflow:auto;
+    border:solid 1px #ccc;
+    font-size:14px;
+}

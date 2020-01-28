@@ -1,0 +1,17 @@
+{
+  "name": "draw",
+  "version": "1.0.0",
+  "description": "你画我猜",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "你画我猜"
+  ],
+  "author": "牛某",
+  "license": "ISC",
+  "devDependencies": {
+    "ws": "^7.2.1"
+  }
+}
