@@ -98,7 +98,11 @@ wss.on('connection', function (ws) {
     	}else if(obj.dataType == GAME_LOGIC && obj.gameState == GAME_RESTART){
     		startGame();
     	}     
-    });
+	});
+	
+	ws.on('error', function () {
+		wss.broadcast('{data: "服务端链接错误"}');
+	});
  
 });
  
