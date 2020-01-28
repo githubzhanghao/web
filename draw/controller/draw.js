@@ -26,15 +26,16 @@ wss.broadcast = function broadcast(message) {
 	});
 };
  
-const names = [ 'sss', 'dd', 'hh', 'yy'];
+const names = [ 'sss', 'dd', 'hh', 'yy', 'cc'];
 //建立连接时向客户端发送一条msg
 wss.on('connection', function (ws) { 
 	var msg = "新人进入，当前房间人数" + wss.clients.size;    
     
     //定义发送数据的类型，并广播               
     var data = {};
-    data.dataType = CHAT_MESSAGE;
-    data.name = "Server";
+	data.dataType = CHAT_MESSAGE;
+	var nameIndex =  Math.floor(Math.random() * 5);
+    data.name = names[nameIndex];
     data.message = msg;
     wss.broadcast(JSON.stringify(data));
  

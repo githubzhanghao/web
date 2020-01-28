@@ -30,7 +30,13 @@ function drawLine(ctx, x1, y1, x2, y2, thickness) {
 	ctx.stroke();
 }
 
+window.onbeforeunload = function() {
+	confirm('关闭前');
+};
 
+window.onunload = function() {
+	confrim('要关闭了');
+}
 $(document).ready(function () {
 	var pad = document.getElementById('drawing-pad');
 	pad.addEventListener('touchstart', function (e) {
