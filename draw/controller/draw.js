@@ -76,8 +76,9 @@ wss.on('connection', function (ws) {
  
     //广播接收到的客户端发来的消息，并广播
     ws.on('message', function (message) {
-    	var obj = eval('(' + message + ')');
-    	wss.broadcast(JSON.stringify(obj));
+		var obj = eval('(' + message + ')');
+    	wss.broadcast('{data: "服务端回传信息测试"}');
+		return 
  
         //如果判断收到的消息是聊天消息
     	if(obj.dataType == CHAT_MESSAGE){

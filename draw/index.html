@@ -60,34 +60,35 @@
         //     // console.log(`[CLIENT] Received: ${message}`);
         // };
         //启动一个websocket，并连接到服务器
-        var ws = new WebSocket("ws://localhost:8181");
+        var ws = new WebSocket("ws://niuxiaodong.com/ws");
         ws.onopen = function (e) {
             console.log('Connection to server opened');
         }
 
         ws.onmessage = function (evt) {
             var data = JSON.parse(evt.data);
-            if (data.dataType == websocketGame.CHAT_MESSAGE) {
-                $("#chat-history").append("<li>" + data.name + " said: " + data.message + "</li>");
-            } else if (data.dataType == websocketGame.LINE_SEGMENT) {
-                drawLine(ctx, data.startX, data.startY, data.endX, data.endY, 1);
-            } else if (data.dataType == websocketGame.GAME_LOGIC) {
-                if (data.gameState == websocketGame.GAME_OVER) {
-                    websocketGame.isTurnToDraw = false;
-                    $("#chat-history").append("<li>" + data.winner + " wins! The answer is '" + data.answer + "'.</li>");
-                    $("#restart").show();
-                } else if (data.gameState == websocketGame.GAME_START) {
-                    canvas.width = canvas.width;
-                    $("#restart").hide();
-                    $("#chat-history").html("");
-                    if (data.isPlayerTurn) {
-                        isTurnToDraw = true;
-                        $("#chat-history").append("<li>到你画了 ' " + data.answer + "'.</li>");
-                    } else {
-                        $("#chat-history").append("<li>游戏开始</li>");
-                    }
-                }
-            }
+            alert(JSON.stringify(data));
+            // if (data.dataType == websocketGame.CHAT_MESSAGE) {
+            //     $("#chat-history").append("<li>" + data.name + " said: " + data.message + "</li>");
+            // } else if (data.dataType == websocketGame.LINE_SEGMENT) {
+            //     drawLine(ctx, data.startX, data.startY, data.endX, data.endY, 1);
+            // } else if (data.dataType == websocketGame.GAME_LOGIC) {
+            //     if (data.gameState == websocketGame.GAME_OVER) {
+            //         websocketGame.isTurnToDraw = false;
+            //         $("#chat-history").append("<li>" + data.winner + " wins! The answer is '" + data.answer + "'.</li>");
+            //         $("#restart").show();
+            //     } else if (data.gameState == websocketGame.GAME_START) {
+            //         canvas.width = canvas.width;
+            //         $("#restart").hide();
+            //         $("#chat-history").html("");
+            //         if (data.isPlayerTurn) {
+            //             isTurnToDraw = true;
+            //             $("#chat-history").append("<li>到你画了 ' " + data.answer + "'.</li>");
+            //         } else {
+            //             $("#chat-history").append("<li>游戏开始</li>");
+            //         }
+            //     }
+            // }
 
         };
 
