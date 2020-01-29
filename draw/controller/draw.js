@@ -1,36 +1,59 @@
-// 导入WebSocket模块:
-var ws = require('nodejs-websocket');
+var app = require('http').createServer();
+var io = require('socket.io')(app);
 
-var PORT = 8181;
+var PORT = 3000;
 
 var clientCount = 0;
 
-var server = ws.createServer(function(conn) {
-	conn.nickName = 'user' + clientCount;
-	broadcast(conn.nickName + ' is come in');
-	console.log('new connection');
-	conn.on('text', function(str) {
-		console.log('server received: ' + str);
-		broadcast(str);
-	});
-	conn.on('close', function(code, reson) {
-		broadcast(conn.nickName + ' left');
-		console.log('connection closed');
+app.listen(PORT);
+
+io.on('connection', function(socket) {
+	clientCount++;
+	socket.nickName = 'user' + clientCount;
+	io.emit('enter', socket.nickName + ' come in');
+
+	socket.on('message', function(str) {
+		io.emit('message', socket.nickName + ' says: ' + str);
 	});
 
-	conn.on('error', function(err) {
-		console.log('handle err');
-		console.log(err);
+	socket.on('disconnect', function() {
+		io.emit('leave', socket.nickName + ' left');
 	})
-}).listen(PORT);
+})
+
+// // 导入WebSocket模块:
+// var ws = require('nodejs-websocket');
+
+// var PORT = 8181;
+
+// var clientCount = 0;
+
+// var server = ws.createServer(function(conn) {
+// 	conn.nickName = 'user' + clientCount;
+// 	broadcast(conn.nickName + ' is come in');
+// 	console.log('new connection');
+// 	conn.on('text', function(str) {
+// 		console.log('server received: ' + str);
+// 		broadcast(str);
+// 	});
+// 	conn.on('close', function(code, reson) {
+// 		broadcast(conn.nickName + ' left');
+// 		console.log('connection closed');
+// 	});
+
+// 	conn.on('error', function(err) {
+// 		console.log('handle err');
+// 		console.log(err);
+// 	})
+// }).listen(PORT);
 
 console.log('websocket server listening on port ' + PORT);
 
-function broadcast(str) {
-	server.connections.forEach(function(connection) {
-		connection.sendText(str);
-	})
-}
+// function broadcast(str) {
+// 	server.connections.forEach(function(connection) {
+// 		connection.sendText(str);
+// 	})
+// }
 
 // //配置一些变量表达游戏状态
 // var LINE_SEGMENT = 0;

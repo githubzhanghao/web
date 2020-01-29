@@ -14,6 +14,7 @@
     <script src="./js/jq-mobile.js"></script>
     <script src="./js/tw-bootstrap.js"></script>
     <link rel="stylesheet" type="text/css" href="index.css">
+    <script type="text/javascript" src="./js/socket.io.js"></script>
 </head>
 
 <body>
@@ -44,15 +45,15 @@
     </button>
     
     <script type="text/javascript">
-        var ws = new WebSocket("ws://localhost:8181/");
     </script>
 
 
-    <script type="text/javascript" src="./index.js"></script>
+    <!-- <script type="text/javascript" src="./index.js"></script> -->
 
 
     <script>
-        // let ws = new WebSocket('ws://localhost:3000/');
+        var socket = io("ws://localhost:3000/");
+
 
         // 打开WebSocket连接后立刻发送一条消息:
         // ws.onopen = function () {
@@ -68,20 +69,20 @@
         //启动一个websocket，并连接到服务器
         var num = 0;
         $("#send").on('click', function() {
-            ws.send($('#message').val());
+            socket.send($('#message').val());
         });
         
-        ws.onopen = function (e) {
+        socket.onopen = function (e) {
             alert('开启成功')
             console.log('Connection to server opened');
         }
 
-        ws.onclose = function(err) {
+        socket.onclose = function(err) {
             alert(err.code);
             console.log('链接关闭');
         }
 
-        ws.onmessage = function (evt) {
+        socket.onmessage = function (evt) {
             $('#chat-history').append($('<li>').html(evt.data));
             $('#chat-history').scrollTop($('#chat-history').height());
             // var data = JSON.parse(evt.data);
@@ -115,7 +116,7 @@
             data.dataType = websocketGame.CHAT_MESSAGE;
             data.message = msg;
             data.name = "client1";
-            ws.send(JSON.stringify(data));
+            socket.send(JSON.stringify(data));
             $('#message').val("");
         }
     </script>
