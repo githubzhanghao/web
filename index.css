@@ -65,16 +65,17 @@ canvas {
     outline: none;
     font-weight: 700;
     position: absolute;
-    bottom: 0;
+    top: 0;
     left: 0;
     padding-right: 100px;
+
 }
 
 #sendBtn {
     width: 80px;
     height: 40px;
     position: absolute;
-    bottom: 0;
+    top: 0;
     right: 0px;
     color: #fff;
     background-color: #17a2b8;
@@ -109,4 +110,12 @@ canvas {
 
 #chatBox .chatItem .chatItem_message {
     margin-left: 10px;
+}
+.formbox {
+    position: absolute;
+    bottom: 0;
+    height: 80px;
+    background-color: #fff;
+    left: 0;
+    width: 100%;
 }
