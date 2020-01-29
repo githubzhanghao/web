@@ -23,7 +23,7 @@
         <h1>1.0</h1>
         <div class="vertical-center">
             <ul id="chat-history"></ul>
-            <div id='test'></div>
+            <input id="message" />
 
             <!-- <div class="container">
 
@@ -68,20 +68,22 @@
         //启动一个websocket，并连接到服务器
         var num = 0;
         $("#send").on('click', function() {
-            ws.send('ssss' + ++num);
-        })
+            ws.send($('#message').val());
+        });
         
         ws.onopen = function (e) {
+            alert('开启成功')
             console.log('Connection to server opened');
         }
 
-        ws.onclose = function() {
+        ws.onclose = function(err) {
+            alert(err.code);
             console.log('链接关闭');
         }
 
         ws.onmessage = function (evt) {
-            console.log(111);
-            $('#test').html(evt.data);
+            $('#chat-history').append($('<li>').html(evt.data));
+            $('#chat-history').scrollTop($('#chat-history').height());
             // var data = JSON.parse(evt.data);
             // if (data.dataType == websocketGame.CHAT_MESSAGE) {
             //     $("#chat-history").append("<li>" + data.name + " said: " + data.message + "</li>");

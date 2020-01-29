@@ -1,20 +1,36 @@
 // 导入WebSocket模块:
 var ws = require('nodejs-websocket');
 
+var PORT = 8181;
+
+var clientCount = 0;
+
 var server = ws.createServer(function(conn) {
+	conn.nickName = 'user' + clientCount;
+	broadcast(conn.nickName + ' is come in');
 	console.log('new connection');
 	conn.on('text', function(str) {
 		console.log('server received: ' + str);
-		conn.sendText(str);
+		broadcast(str);
 	});
 	conn.on('close', function(code, reson) {
+		broadcast(conn.nickName + ' left');
 		console.log('connection closed');
 	});
 
-	conn.on('error', function() {
-		console.log('error');
+	conn.on('error', function(err) {
+		console.log('handle err');
+		console.log(err);
 	})
-}).listen(8181);
+}).listen(PORT);
+
+console.log('websocket server listening on port ' + PORT);
+
+function broadcast(str) {
+	server.connections.forEach(function(connection) {
+		connection.sendText(str);
+	})
+}
 
 // //配置一些变量表达游戏状态
 // var LINE_SEGMENT = 0;

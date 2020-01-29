@@ -67,7 +67,7 @@ $(document).ready(function () {
 			data.startY = websocketGame.startY;
 			data.endX = mv_x;
 			data.endY = mv_y;
-			ws.send(JSON.stringify(data));
+			// ws.send(JSON.stringify(data));
 
 			websocketGame.startX = mv_x;
 			websocketGame.startY = mv_y;
