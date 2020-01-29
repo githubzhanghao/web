@@ -5,12 +5,14 @@
 }
 html {
     height: 100%;
+    touch-action: none;
 }
 body {
     /* background: linear-gradient(40deg, rgb(198, 255, 221), rgb(251, 215, 134), rgb(247, 121, 125)); */
     background-color: #59d4e8;
     height: 100%;
     position: relative;
+    touch-action: none;
 }
 canvas {
     background-color: #1e6262;
