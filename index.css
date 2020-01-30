@@ -117,9 +117,10 @@ canvas {
 }
 #chatArea {
     height: 25%;
-    margin-top: 10px;
+    padding-top: 10px;
     overflow-x: hidden;
     overflow-y: scroll;
+    /* background-color: #ecfffb; */
 }
 
 #chatBox {
