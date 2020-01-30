@@ -10,12 +10,15 @@
     <meta name="format-detection" content="telephone=no,email=no" />
     <link rel="stylesheet" href="./index.css">
     <script src='./draw/js/jq.js'></script>
+    <script src='./utils/hysdk.js'></script>
 </head>
 
 <body>
     <canvas id="canvas"></canvas>
-    <div id='colors'></div>
-    <div id='lineWidthBox'></div>
+    <div id='colors'>
+        <div class="lineWidthBox"></div>
+    </div>
+    
     <div id="chatArea">
         <div id="chatBox"></div>
     </div>
@@ -25,15 +28,27 @@
     </div>
     
     <script>
+
+        $(window).on('click', function(e) {
+            if(!$(e.target).hasClass('colorBlock') && !e.target.className.includes('lineBlock')) {
+                $('.lineWidthBox').hide();
+                $('.arrow').hide();
+            }
+        })
+        // 处理地步输入框
+        if (hysdk.sniff.iphoneX) {
+            $('.formbox').css({
+                height: 80
+            });
+        }
+        $("#message").on('blur', function() {
+            $(this).blur();
+        })
         function getDom(id) {
             return document.getElementById(id);
         }
-        let degree = 0;
-        // setInterval(function () {
-        //     degree += 3;
-        //     document.body.style.background = `linear-gradient(${degree}deg, rgb(198, 255, 221), rgb(251, 215, 134), rgb(247, 121, 125))`;
-        // }, 33);
 
+        window.ontouchstart = function(e) { e.preventDefault(); };
         document.addEventListener("touchmove", function (e) {
             e.preventDefault()
         }, false);
@@ -52,8 +67,8 @@
         ];
 
         const lineWidth = [
-            10,
             15,
+            35,
             20,
             30,
             40
@@ -62,33 +77,40 @@
         ctx.strokeStyle = colors[0];
 
         colors.forEach(function (color) {
-            $('#colors').append($('<div class="colorBlock">').css({
+            const colorBlock = $('<div class="colorBlock">');
+                colorBlock.append($('<div class="arrow">'))
+            $('#colors').append(colorBlock.css({
                 backgroundColor: color
             }));
         });
 
         let colorIndex = 0;
+        
         lineWidth.forEach(function (line, index) {
-            $('#lineWidthBox').append($('<div class="lineBlock">').css({
-                width: line,
+
+            const lineBox = $('<div class="lineBlockBox">').append($('<div class="lineBlock">').css({
                 height: line,
                 backgroundColor: colors[colorIndex]
             }));
+            
+            $('.lineWidthBox').append(lineBox);
         });
 
 
         $('#colors').on('click', '.colorBlock' ,function(e) {
             $(this).siblings().removeClass('active');
             $(this).addClass('active');
-            colorIndex = $(this).index();
-            ctx.strokeStyle = colors[$(this).index()];
+            colorIndex = $(this).index() - 1;
+            ctx.strokeStyle = colors[$(this).index() - 1];
+            $('.lineWidthBox').show();
+            $(this).find('.arrow').show();
             $('.lineBlock').css({
                 backgroundColor: colors[colorIndex]
             })
         });
 
 
-        $('#lineWidthBox').on('click', '.lineBlock' ,function(e) {
+        $('.lineWidthBox').on('click', '.lineBlockBox' ,function(e) {
             $(this).siblings().removeClass('active');
             $(this).addClass('active');
             ctx.lineWidth = lineWidth[$(this).index()];
@@ -107,8 +129,9 @@
 
         let startX = 0, startY = 0;
         canvas.addEventListener('touchstart', function (e) {
+            $('.lineWidthBox').hide();
+            $('.arrow').hide();
             var touchPort = e.touches[0];
-
             var mouseX
             startX = touchPort.pageX;
             startY = touchPort.pageY;

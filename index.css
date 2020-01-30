@@ -6,6 +6,9 @@
 html {
     height: 100%;
     touch-action: none;
+
+    -webkit-user-select: none;/*禁用手机浏览器的用户选择功能 */
+    -moz-user-select: none;
 }
 body {
     /* background: linear-gradient(40deg, rgb(198, 255, 221), rgb(251, 215, 134), rgb(247, 121, 125)); */
@@ -13,19 +16,24 @@ body {
     height: 100%;
     position: relative;
     touch-action: none;
+
+    -webkit-user-select: none;/*禁用手机浏览器的用户选择功能 */
+    -moz-user-select: none;
 }
 canvas {
     background-color: #1e6262;
+
+    -webkit-user-select: none;/*禁用手机浏览器的用户选择功能 */
+    -moz-user-select: none;
 }
 #colors {
-    overflow: hidden;
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: space-around;
     height: 10%;
 }
 .colorBlock {
-    float: left;
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -33,27 +41,49 @@ canvas {
     -moz-border-radius: 50%;
     -ms-border-radius: 50%;
     -o-border-radius: 50%;
+    position: relative;
+    box-sizing: border-box;
+    position: relative;
+}
+.arrow {
+    position: absolute;
+    border: 10px solid transparent;
+    border-top-color: #fff;
+    top: -18px;
+    left: 11px;
+    visibility: hidden;
 }
 .colorBlock.active{
-    border: 10px solid #fff;
+    border: 4px solid #fff;
+}
+.colorBlock.active .arrow {
+    visibility: visible;
 }
 
-#lineWidthBox {
+.lineWidthBox {
+    position: absolute;
+    left: 0;
+    top: -55px;
+    background-color: #fff;
     display: flex;
     align-items: center;
     justify-content: space-around;
-    margin-top: 5px;
-    height: 5%;
+    width: 100%;
+    height: 50px;
 }
-.lineBlock {
-    border-radius: 50%;
-    -webkit-border-radius: 50%;
-    -moz-border-radius: 50%;
-    -ms-border-radius: 50%;
-    -o-border-radius: 50%;
+.lineBlockBox {
+    width: 40px;
+    height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    align-content: center;
 }
-.lineBlock.active{
-    border: 10px solid #fff;
+.lineBlockBox .lineBlock {
+    width: 100%;
+}
+.lineBlockBox.active .lineBlock{
+    border: 3px solid #1e6262;
 }
 
 #message {
@@ -114,7 +144,7 @@ canvas {
 .formbox {
     position: absolute;
     bottom: 0;
-    height: 80px;
+    height: 40px;
     background-color: #fff;
     left: 0;
     width: 100%;
