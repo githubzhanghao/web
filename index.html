@@ -15,10 +15,13 @@
 
 <body>
     <canvas id="canvas"></canvas>
+
+    <div id="colorsIcon"></div>
     <div id='colors'>
         <div class="lineWidthBox"></div>
+        <div class="clearBox"></div>
     </div>
-    
+
     <div id="chatArea">
         <div id="chatBox"></div>
     </div>
@@ -26,12 +29,15 @@
         <input id="message" placeholder="发送消息" />
         <button id="sendBtn">发送</button>
     </div>
+
     
+
     <script>
-        $('.lineWidthBox').hide();
-        $(window).on('click', function(e) {
-            if(!$(e.target).hasClass('colorBlock') && !e.target.className.includes('lineBlock')) {
-                $('.lineWidthBox').hide();
+        $('.lineWidthBox, .clearBox').hide();
+        $(window).on('click', function (e) {
+            const className = e.target.className;
+            if (!$(e.target).hasClass('colorBlock') && !className.includes('lineBlock') && !className.includes('clear')) {
+                $('.lineWidthBox, .clearBox').hide();
                 $('.arrow').hide();
             }
         })
@@ -41,14 +47,14 @@
                 height: 80
             });
         }
-        $("#message").on('blur', function() {
+        $("#message").on('blur', function () {
             $(this).blur();
         })
         function getDom(id) {
             return document.getElementById(id);
         }
 
-        window.ontouchstart = function(e) { e.preventDefault(); };
+        window.ontouchstart = function (e) { e.preventDefault(); };
         document.addEventListener("touchmove", function (e) {
             e.preventDefault()
         }, false);
@@ -56,8 +62,8 @@
             ctx = canvas.getContext('2d');
         canvas.width = document.documentElement.offsetWidth;
         canvas.height = document.documentElement.offsetHeight / 2;
-        ctx.lineCap="round";
-        ctx.lineJoin="round";
+        ctx.lineCap = "round";
+        ctx.lineJoin = "round";
         const colors = [
             '#ffcef3',
             '#a1eafb',
@@ -67,56 +73,88 @@
         ];
 
         const lineWidth = [
-            1,
-            5,
+            2,
+            6,
             10,
-            25,
-            35
+            18,
+            28
         ];
-        ctx.lineWidth = lineWidth[0];
+        ctx.lineWidth = lineWidth[2];
         ctx.strokeStyle = colors[0];
 
         colors.forEach(function (color) {
             const colorBlock = $('<div class="colorBlock">');
-                colorBlock.append($('<div class="arrow">'))
             $('#colors').append(colorBlock.css({
                 backgroundColor: color
             }));
         });
+        $('#colors').append($('<div class="clearItem">'));
 
         let colorIndex = 0;
-        
-        lineWidth.forEach(function (line, index) {
+        let clearWidthIndex = 0;
 
-            const lineBox = $('<div class="lineBlockBox">').append($('<div class="lineBlock">').css({
+        lineWidth.forEach(function (line, index) {
+            const lineBlockBox = $('<div class="lineBlockBox">');
+                lineBlockBox.append($('<div class="arrow">'));
+            lineBlockBox.append($('<div class="lineBlock">').css({
                 height: line,
                 backgroundColor: colors[colorIndex]
             }));
-            
-            $('.lineWidthBox').append(lineBox);
+
+            $('.lineWidthBox').append(lineBlockBox);
+
+            // 橡皮擦初始化
+            const clearBlockBox = $('<div class="clearBlockBox">');
+            clearBlockBox.append($('<div class="clearBlock">').css({
+                width: line,
+                height: line,
+                backgroundColor: '#666'
+            }));
+            $('.clearBox').append(clearBlockBox)
         });
+        $('.clearBox').append($('<div class="arrow">'));
 
-
-        $('#colors').on('click', '.colorBlock' ,function(e) {
+        $('.clearBox').on('click', '.clearBlockBox', function() {
             $(this).siblings().removeClass('active');
             $(this).addClass('active');
-            colorIndex = $(this).index() - 1;
-            ctx.strokeStyle = colors[$(this).index() - 1];
+
+            ctx.lineWidth = lineWidth[$(this).index()];
+        })
+
+        $('.lineBlockBox').eq(2).addClass('active');
+        $('.colorBlock').eq(0).addClass('active');
+        $('.clearBlockBox').eq(0).addClass('active');
+
+        $('#colors').on('click', '.colorBlock', function (e) {
+            $(this).siblings().removeClass('active');
+            $(this).addClass('active');
+            colorIndex = $(this).index() - 2;
+            ctx.strokeStyle = colors[$(this).index() - 2];
             $('.lineWidthBox').show();
-            $(this).find('.arrow').show();
+            $('.arrow').hide();
+            $('.lineBlockBox').eq(colorIndex).find('.arrow').show();
             $('.lineBlock').css({
                 backgroundColor: colors[colorIndex]
-            })
+            });
+            $('.clearBox').hide();
         });
+        $('#colors').on('click', '.clearItem', function (e) {
+            $('.lineWidthBox').hide();
+            $('.clearBox').show();
+            ctx.lineWidth = lineWidth[clearWidthIndex];
+            ctx.strokeStyle = '#1e6262';
+            $('.clearBox .arrow').show();
+        });
+        
 
 
-        $('.lineWidthBox').on('click', '.lineBlockBox' ,function(e) {
+        $('.lineWidthBox').on('click', '.lineBlockBox', function (e) {
             $(this).siblings().removeClass('active');
             $(this).addClass('active');
             ctx.lineWidth = lineWidth[$(this).index()];
         });
 
-        $('#sendBtn').on('click', function() {
+        $('#sendBtn').on('click', function () {
             let li = $('<div class="chatItem">');
             li.append($('<span class="nickname">某某：</span>'));
             li.append($('<p class="chatItem_message">').html($('#message').val()));
@@ -124,12 +162,12 @@
             $('#chatArea').scrollTop($('#chatBox').height());
         });
 
-        
+
         let isDrawing = false;
 
         let startX = 0, startY = 0;
         canvas.addEventListener('touchstart', function (e) {
-            $('.lineWidthBox').hide();
+            $('.lineWidthBox, .clearBox').hide();
             $('.arrow').hide();
             var touchPort = e.touches[0];
             var mouseX
@@ -152,7 +190,7 @@
             }
         }, false);
 
-        canvas.addEventListener('touchend', function(e) {
+        canvas.addEventListener('touchend', function (e) {
             isDrawing = false;
         });
 
