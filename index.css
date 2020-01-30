@@ -175,7 +175,7 @@ canvas {
     padding: 5px 30px;
 }
 #chatBox .chatItem {
-    min-height: 25px;
+    /* min-height: 25px; */
     font-size: 18px;
     color: #1e6262;
     display: flex;
@@ -184,11 +184,12 @@ canvas {
 }
 #chatBox .chatItem .nickname {
     width: 42px;
+    font-size: 14px;
     word-break: keep-all;
 }
 
 #chatBox .chatItem .chatItem_message {
-    margin-left: 10px;
+    margin-left: 5px;
     font-size: 14px;
 }
 .formbox {
