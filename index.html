@@ -155,12 +155,15 @@
         });
 
         $('#sendBtn').on('click', function () {
-            let li = $('<div class="chatItem">');
-            li.append($('<span class="nickname">某某：</span>'));
-            li.append($('<p class="chatItem_message">').html($('#message').val()));
-            $('#chatBox').append(li);
-            $('#chatArea').scrollTop($('#chatBox').height());
-            $('#message').val('');
+            if ($('#message').val().trim()) {
+                let li = $('<div class="chatItem">');
+                li.append($('<span class="nickname">某某：</span>'));
+                li.append($('<p class="chatItem_message">').html($('#message').val()));
+                $('#chatBox').append(li);
+                $('#chatArea').scrollTop($('#chatBox').height());
+                $('#message').val('');
+            }
+            
         });
 
 
