@@ -183,11 +183,13 @@ canvas {
     align-items: top;
 }
 #chatBox .chatItem .nickname {
-    width: 60px;
+    width: 42px;
+    word-break: keep-all;
 }
 
 #chatBox .chatItem .chatItem_message {
     margin-left: 10px;
+    font-size: 14px;
 }
 .formbox {
     position: absolute;
